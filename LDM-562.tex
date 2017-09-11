@@ -1,0 +1,357 @@
+\documentclass[SE,toc,lsstdraft]{lsstdoc}
+
+% We use commands to make it easy to find where parameter names and units
+% are defined in the tables, and to allow hyphenation.
+\newcommand{\paramname}[1]{\hspace{0pt}#1}
+\newcommand{\unitname}[1]{\hspace{0pt}#1}
+
+\setcounter{secnumdepth}{5}
+
+%% Retrieve date and model version
+\setDocUpstreamLocation{MagicDraw SysML}
+\setDocUpstreamVersion{37}
+
+\date{2017-09-11}
+
+%% Define the document title, authors, handle, and change record
+\input metadata.tex
+
+% Environment for displaying the parameter tables in
+% a consistent manner. No arguments as there are no
+% captions or labels.
+\newenvironment{parameters}[0]{%
+\setlength\LTleft{0pt}
+\setlength\LTright{\fill}
+\begin{small}
+\begin{longtable}[]{|p{0.49\textwidth}|l|p{0.6in}|p{1.70in}@{}|}
+
+\hline \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\ \hline
+\endhead
+
+\hline \multicolumn{4}{r}{\emph{Continued on next page}} \\
+\endfoot
+
+\hline\hline
+\endlastfoot
+}{%
+\hline
+\end{longtable}
+\end{small}
+}
+
+\begin{document}
+\maketitle
+
+\section{Joint Calibration}
+
+\subsection{Composed Photometric Models}
+
+\label{DMS-L2JC-REQ-0001}
+\textbf{ID:} DMS-L2JC-REQ-0001
+
+\textbf{Specification:}
+JointCal shall fit photometric models defined as the product of a set of spatially-varying functions that may be defined in different coordinate systems.
+
+\textbf{Discussion:}
+The set of supported multiplicative components is given in other requirements.  Only some components need be used in a particular fit.
+
+\subsection{Composed Astrometric Models}
+
+\label{DMS-L2JC-REQ-0002}
+\textbf{ID:} DMS-L2JC-REQ-0002
+
+\textbf{Specification:}
+JointCal shall fit astrometric models defined via a configurable composition of a set of coordinate transforms.
+
+\textbf{Discussion:}
+The set of supported transform components is given in other requirements.  Only some components need be used in a particular fit.
+
+\subsection{Orthogonal Polynomials}
+
+\label{DMS-L2JC-REQ-0003}
+\textbf{ID:} DMS-L2JC-REQ-0003
+
+\textbf{Specification:}
+All JointCal model components based on polynomials shall use an orthonormal polynomial basis instead of standard polynomials.
+
+\textbf{Discussion:}
+Chebyshev (outer products up to some order) and Zernike polynomials are reasonable choices in different contexts, but Chebyshev should be the default.
+
+\subsection{Regularization of Degenerate Parameters}
+
+\label{DMS-L2JC-REQ-0004}
+\textbf{ID:} DMS-L2JC-REQ-0004
+
+\textbf{Specification:}
+JointCal shall be capable of fitting models with exactly degenerate parameters.
+
+\textbf{Discussion:}
+This may be accomplished by e.g. allowing Bayesian priors to be specified for parameters or by detecting degeneracies and removing them by fixing some parameters to nominal values.  It may also be helpful to define some models in such a way that explicitly avoids degeneracies with other common models (e.g. full-focal plane polynomial transformations should have a form that allows parameters degenerate with an affine transform to be explicitly removed).  When Bayesian priors are used, joint priors that cross component boundaries must be possible (e.g. CCD displacements may be correlated across CCDs).
+
+\subsection{Wavelength Dependence}
+
+\label{DMS-L2JC-REQ-0005}
+\textbf{ID:} DMS-L2JC-REQ-0005
+
+\textbf{Specification:}
+All JointCal photometric model components shall have a wavelength-dependent form defined by a linear combination of wavelength-independent model components of the same type.
+
+\textbf{Discussion:}
+Sub-band SEDs for objects will be defined by a small number of orthogonal linear parameters (either simple bins or a series expansion), and will be inferred from object colors via a call to an external (to JointCal) function.  The set of sub-band SED parameters can then be used (after scaling by the unknown total fluxes of objects) to constrain wavelength-dependent model components in the same way measured object fluxes constrain wavelength-independent model components.
+
+\subsection{Group-Based Component Variation}
+
+\label{DMS-L2JC-REQ-0006}
+\textbf{ID:} DMS-L2JC-REQ-0006
+
+\textbf{Specification:}
+It shall be possible to tie any JointCal model component's variation to a group of one or more sensors, a group of one or more exposures, or a group of exposure-sensor pairs.
+
+\textbf{Discussion:}
+Examples for groups of sensors may include rafts or sensors produced by a particular vendor.  Examples of groups of exposures may include those observed with a particular filter or those observed in a particular time range.  Many groups will simply contain a single sensor or exposure.  Full-focal plane model components will never be tied to individual sensors, of course.  A design that could be extended to support different parameters to different amplifiers would be highly desirable in case this is needed in the future.
+
+\subsection{Photometric Jacobian Component}
+
+\label{DMS-L2JC-REQ-0007}
+\textbf{ID:} DMS-L2JC-REQ-0007
+
+\textbf{Specification:}
+JointCal shall include in the photometric model a correction for the variation in pixel area determined from the astrometric model.
+
+\textbf{Discussion:}
+Like other components in the photometric fit, this correction should be optional; in some contexts this correction may be included in the catalogs used as input instead.
+
+\subsection{Photometric Spatially-Varying Components}
+
+\label{DMS-L2JC-REQ-0008}
+\textbf{ID:} DMS-L2JC-REQ-0008
+
+\textbf{Specification:}
+JointCal shall include photometric model components that vary smoothly over either the full focal plane or individual devices.
+
+\textbf{Discussion:}
+These components may represent corrections to flat field image due to scattered light or nonuniform illumination, atmospheric extinction/clouds, filter curve variations, and sensor QE.
+
+\subsection{Photometric Time-Varying Component}
+
+\label{DMS-L2JC-REQ-0009}
+\textbf{ID:} DMS-L2JC-REQ-0009
+
+\textbf{Specification:}
+JointCal shall include a component representing overall photometric throughput that varies with airmass and over the course of each night of observations.
+
+\textbf{Discussion:}
+This component need not be spatially varying on scales below an individual exposure, and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
+
+\subsection{Astrometric Tree-Ring Component}
+
+\label{DMS-L2JC-REQ-0010}
+\textbf{ID:} DMS-L2JC-REQ-0010
+
+\textbf{Specification:}
+The JointCal astrometric model shall include a component to model tree-rings.
+
+\textbf{Discussion:}
+We will follow the prescription in Bernstein (2017): we'll derive a pixel template for the distortion and direction due to tree rings from flat-field images with only 1-3 parameters to be fit by JointCal for each sensor+band combination.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
+
+\subsection{Astrometric Edge Distortion Component}
+
+\label{DMS-L2JC-REQ-0011}
+\textbf{ID:} DMS-L2JC-REQ-0011
+
+\textbf{Specification:}
+The JointCal astrometric model shall include a component to model sharp distortions at the edges of sensors.
+
+\textbf{Discussion:}
+The detailed functional form of this model will need to be derived from the properties of actual LSST sensors.  The properties of LSST sensors will also determine whether a single set of parameters can be used for multiple sensors.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
+
+\subsection{Astrometric Sensor Mount Component}
+
+\label{DMS-L2JC-REQ-0012}
+\textbf{ID:} DMS-L2JC-REQ-0012
+
+\textbf{Specification:}
+The JointCal astrometric model shall include an affine transform for each sensor.
+
+\textbf{Discussion:}
+This 6-parameter transform for each sensor will probably be assumed to be either constant for all exposures or a piecewise, slowly-varying function of time; fits that allow them to vary independently for each exposure should be possible as a diagnostic.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.  It must be possible to separately enable or disable fitting the offsets, rotation, and distortion/shear.
+
+\subsection{Differential Chromatic Refraction Correction}
+
+\label{DMS-L2JC-REQ-0013}
+\textbf{ID:} DMS-L2JC-REQ-0013
+
+\textbf{Specification:}
+JointCal shall be capable of working with both DCR-corrected positions and positions measured without DCR correction.
+
+\textbf{Discussion:}
+We ultimately intend to include DCR in the PSF model, not the astrometric model, but to bootstrap those models the first run of JointCal in DRP will need to apply its own DCR correction to measured positions; the average DCR-corrected positions of stars will then be fed back into the PSF modeling code in order to construct a PSF model that includes DCR, and hence can be used to measure DCR-corrected centroids.  This need not be implemented as a model component; it should be sufficient to just apply a predicted DCR correction to each source before fitting (but this cannot be done before JointCal because cross-band matches are needed to infer object SEDs).
+
+\subsection{Astrometric Optical Component}
+
+\label{DMS-L2JC-REQ-0014}
+\textbf{ID:} DMS-L2JC-REQ-0014
+
+\textbf{Specification:}
+The JointCal astrometric model shall include at least one component for distortions due to telescope and camera optics.
+
+\textbf{Discussion:}
+This component is approximately, but not exactly radial, and can be assumed to be smooth over the focal plane.  It is also approximately but not exactly constant across exposures (it may vary weakly with altitude, for instance).  It may be wavelength-dependent at a level that will require sub-band SEDs to be used in at least some bands in addition to different parameters for each filter.  It may be useful to separate this component into multiple components allow a single radial component that is constant across filters and/or exposures to capture most of this transform, leaving additional variations as small perturbations.
+
+\subsection{Astrometric Atmospheric Component}
+
+\label{DMS-L2JC-REQ-0015}
+\textbf{ID:} DMS-L2JC-REQ-0015
+
+\textbf{Specification:}
+The JointCal astrometric model shall include a component to represent distortions due to the atmosphere.
+
+\textbf{Discussion:}
+Atmospheric distortions should be represented by smoothly-varying function (Gaussian Processes, splines, and polynomials are all worth investigating) that cover the full focal plane with different parameters for each exposure.  It should not be wavelength-dependent within a band (at least, not at a level we will be able to constrain).  Particular care should be taken to avoid overfitting this component, which can turn what otherwise would be a stochastic scatter in positions (in the many-exposure limit) into a systematic error.
+
+\subsection{Astrometric Exposure Pointing Component}
+
+\label{DMS-L2JC-REQ-0016}
+\textbf{ID:} DMS-L2JC-REQ-0016
+
+\textbf{Specification:}
+The JointCal astrometric model shall include an affine transform for each exposure.
+
+\textbf{Discussion:}
+Together with the gnomonic projection, this just is what is typically captured in a typical FITS TAN WCS (albeit applied consistently to all sensors in the focal plane).  All but the offset may be considered part of the atmospheric component instead if the overall scaling and rotation of those components are not normalized.  The offset must remain separate to set the reference point for the gnomonic projection.
+
+\subsection{External Reference Catalogs}
+
+\label{DMS-L2JC-REQ-0017}
+\textbf{ID:} DMS-L2JC-REQ-0017
+
+\textbf{Specification:}
+In both photometric and astrometric fitting, JointCal shall support fitting with external catalogs, which may be different for astrometric and photometric fitting.
+
+\textbf{Discussion:}
+It must be possible to use a trivial reference catalog with no more than two stars (which would constrain only the overall photometric zeropoint and the position, scale, and rotation of the image, requiring internal data to constrain all other terms).  Jointcal must be able to filter reference catalogs on magnitude and color and reject outliers (e.g. due to variability, poor external measurements, or different deblending).
+
+\subsection{Inputs from Colimated Beam Projector}
+
+\label{DMS-L2JC-REQ-0018}
+\textbf{ID:} DMS-L2JC-REQ-0018
+
+\textbf{Specification:}
+JointCal shall support using Collimated Beam Projector data to constrain the photometric fit.
+
+\textbf{Discussion:}
+CBP data consists of measurements of photometric throughput (with no atmospheric contributions) at a particular point on the focal plane at a particular wavelength. Like measurements of stars and galaxies, the overall flux of a particular CBP point is unknown but it can be considered to be constant over all exposures. Photometric fits that utilize CBP data only (i.e. no measurements on science images or reference catalogs) should also be possible for one-off diagnostic runs (i.e. this does not need to be part of normal production interface).
+
+\subsection{Maximum Problem Size}
+
+\label{DMS-L2JC-REQ-0019}
+\textbf{ID:} DMS-L2JC-REQ-0019
+
+\textbf{Specification:}
+JointCal shall be capable of fitting at least 6000 full LSST visits together.
+
+\textbf{Discussion:}
+This allows a sky area of approximately 2x2 focal planes at 10-year depth in all bands to be handled in a single consistent solution.
+
+\subsection{Support for Partial Focal Planes}
+
+\label{DMS-L2JC-REQ-0020}
+\textbf{ID:} DMS-L2JC-REQ-0020
+
+\textbf{Specification:}
+JointCal shall be capable of processing visits in which not some areas of the focal plane do not overlap any other visits in the set of visits being fit.
+
+\textbf{Discussion:}
+Visit- or detector-level parameters that only affect the model in areas with a small number of visits need not be fit.
+
+\subsection{Outlier Rejection}
+
+\label{DMS-L2JC-REQ-0021}
+\textbf{ID:} DMS-L2JC-REQ-0021
+
+\textbf{Specification:}
+JointCal shall be capable of rejecting bad astrometric and photometric measurements using the degree to which they disagree with the model.
+
+\textbf{Discussion:}
+This will probably require explicit guards against rejecting too many matches due to bad initial conditions.
+
+\subsection{Stellar Motion Fitting}
+
+\label{DMS-L2JC-REQ-0022}
+\textbf{ID:} DMS-L2JC-REQ-0022
+
+\textbf{Specification:}
+JointCal shall be capable of utilizing external reference catalog stars with nonzero proper motion and parallax.
+
+\textbf{Discussion:}
+We do not expect to need JointCal to be able to fit proper motion and parallax itself, though it should be capable of rejecting stars with significant motions that are not in the reference catalog.
+
+\subsection{Multi-Band Fitting}
+
+\label{DMS-L2JC-REQ-0023}
+\textbf{ID:} DMS-L2JC-REQ-0023
+
+\textbf{Specification:}
+JointCal shall fit data from multiple bands simultaneously.
+
+\textbf{Discussion:}
+Depending on the models being fit, the information available in reference catalogs, and other configuration, multiple bands may be required by some fits, but for simple configurations it should be possible to run on just data from a single band.
+
+\subsection{Reserve Sources for Validation}
+
+\label{DMS-L2JC-REQ-0024}
+\textbf{ID:} DMS-L2JC-REQ-0024
+
+\textbf{Specification:}
+JointCal shall reserve a configurable fraction of randomly-selected matched sources for use in validation.
+
+\textbf{Discussion:}
+Reserved matches are not used in the fit so they can be used to check for overfitting/underfitting and model selection after the fit is complete.
+
+\subsection{Internal Reference Catalog Generation}
+
+\label{DMS-L2JC-REQ-0025}
+\textbf{ID:} DMS-L2JC-REQ-0025
+
+\textbf{Specification:}
+JointCal shall output a catalog of matched sources with inferred positions, fluxes, and colors, as well as diagnostic columns and identifiers for associated external reference catalog objects.
+
+\textbf{Discussion:}
+Using this internal reference catalog in a subsequent single-exposure fit with only per-exposure model components varying should yield models as accurate as those produced in the original JointCal run for one of the exposures in that run (models that vary as a function of time or altitude are not considered per-exposure models in this context).
+
+\subsection{Output and Re-Use Matches}
+
+\label{DMS-L2JC-REQ-0026}
+\textbf{ID:} DMS-L2JC-REQ-0026
+
+\textbf{Specification:}
+The catalog of matched sources used in a JointCal run shall be persistable.
+
+\textbf{Discussion:}
+Between JointCal runs, some source measurements may be updated slightly, but the match identifications can be assumed to remain secure.  This may make it possible to load matches from a previous run in some contexts.
+
+\subsection{Multiple Instrument Support}
+
+\label{DMS-L2JC-REQ-0027}
+\textbf{ID:} DMS-L2JC-REQ-0027
+
+\textbf{Specification:}
+In addition to the full LSST camera, JointCal shall be capable of running on at least LSST ComCam, CFHT Megacam, Hyper-Suprime Cam, and the Dark Energy Camera.
+
+\textbf{Discussion:}
+These cameras are needed for developing and testing algorithms before LSST data is available.  If it can run on these, it's hard to imagine JointCal wouldn't run also on any other camera comprised of multiple CCDs with filter changes that affect entire exposures.
+
+\subsection{Extensibility}
+
+\label{DMS-L2JC-REQ-0028}
+\textbf{ID:} DMS-L2JC-REQ-0028
+
+\textbf{Specification:}
+It shall be possible to add new model components to JointCal to address unanticipated features of the as-delivered system.
+
+\textbf{Discussion:}
+Adding a new model component should not be appreciably more difficult than writing the code to evaluate and differentiate (with respect to parameters) the mathematical function the model represents.  Adding new internal persistence for a model component should also be easy, even if persistence to a format supported by an external standard is much more difficult (or impossible without revising those standards).
+
+\bibliography{lsst}
+
+\end{document}
