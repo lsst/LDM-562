@@ -9,7 +9,7 @@
 
 %% Retrieve date and model version
 \setDocUpstreamLocation{MagicDraw SysML}
-\setDocUpstreamVersion{37}
+\setDocUpstreamVersion{38}
 
 \date{2017-09-11}
 
@@ -152,7 +152,7 @@ This component need not be spatially varying on scales below an individual expos
 The JointCal astrometric model shall include a component to model tree-rings.
 
 \textbf{Discussion:}
-We will follow the prescription in Bernstein (2017): we'll derive a pixel template for the distortion and direction due to tree rings from flat-field images with only 1-3 parameters to be fit by JointCal for each sensor+band combination.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
+We will follow the prescription in \citep{2017PASP..129g4503B}: we'll derive a pixel template for the distortion and direction due to tree rings from flat-field images with only 1-3 parameters to be fit by JointCal for each sensor+band combination.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
 
 \subsection{Astrometric Edge Distortion Component}
 
@@ -352,6 +352,6 @@ It shall be possible to add new model components to JointCal to address unantici
 \textbf{Discussion:}
 Adding a new model component should not be appreciably more difficult than writing the code to evaluate and differentiate (with respect to parameters) the mathematical function the model represents.  Adding new internal persistence for a model component should also be easy, even if persistence to a format supported by an external standard is much more difficult (or impossible without revising those standards).
 
-\bibliography{lsst}
+\bibliography{lsst,refs_ads}
 
 \end{document}
