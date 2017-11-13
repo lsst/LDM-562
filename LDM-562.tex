@@ -143,7 +143,7 @@ These components may represent corrections to flat field image due to scattered 
 JointCal shall include a component representing overall photometric throughput that varies with airmass and over the course of each night of observations.
 
 \textbf{Discussion:}
-This component need not be spatially varying on scales below an individual exposure (that variation is covered by \ref{DMS-L2JC-REQ-0008}), and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
+This component need not be spatially varying on scales below an individual exposure (that variation is covered by \ref{DMS-L2JC-REQ-0008}), and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated (with the interpolant also given) to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
 
 \subsection{Astrometric Tree-Ring Component}
 
