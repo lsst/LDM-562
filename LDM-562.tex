@@ -143,7 +143,7 @@ These components may represent corrections to flat field image due to scattered 
 JointCal shall include a component representing overall photometric throughput that varies with airmass and over the course of each night of observations.
 
 \textbf{Discussion:}
-This component need not be spatially varying on scales below an individual exposure (that variation is covered by \ref{DMS-L2JC-REQ-0008}), and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated (with the interpolant also given) to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
+This component need not be spatially varying on scales below an individual exposure (that variation is covered by \hyperref[DMS-L2JC-REQ-0008]{DMS-L2JC-REQ-0008}), and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated (with the interpolant also given) to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
 
 \subsection{Astrometric Tree-Ring Component}
 
@@ -166,17 +166,6 @@ The JointCal astrometric model shall include a component to model a small, finit
 
 \textbf{Discussion:}
 These are primarily found at the edges of sensors, but may be present elsewhere.  The detailed functional form of this model will need to be derived from the properties of actual LSST sensors.  The properties of LSST sensors will also determine whether a single set of parameters can be used for multiple sensors.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
-
-\subsection{Geometric Masking}
-
-\label{DMS-L2JC-REQ-0011a}
-\textbf{ID:} DMS-L2JC-REQ-0011a
-
-\textbf{Specification:}
-JointCal shall be able to ignore and flag sources in regions of sensors or visits identified as unusable.
-
-\textbf{Discussion:}
-This may be used to remove poor measurements in e.g. vignetted areas or highly-distorted areas.
 
 \subsection{Astrometric Sensor Mount Component}
 
@@ -366,6 +355,17 @@ It shall be possible to add new model components to JointCal to address unantici
 
 \textbf{Discussion:}
 Adding a new model component should not be appreciably more difficult than writing the code to evaluate and differentiate (with respect to parameters) the mathematical function the model represents.  Adding new internal persistence for a model component should also be easy, even if persistence to a format supported by an external standard is much more difficult (or impossible without revising those standards).
+
+\subsection{Geometric Masking}
+
+\label{DMS-L2JC-REQ-0029}
+\textbf{ID:} DMS-L2JC-REQ-0029
+
+\textbf{Specification:}
+JointCal shall be able to ignore and flag sources in regions of sensors or visits identified as unusable.
+
+\textbf{Discussion:}
+This may be used to remove poor measurements in, for example, vignetted areas or highly-distorted areas.
 
 \bibliography{lsst,refs_ads}
 
