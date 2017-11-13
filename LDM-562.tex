@@ -66,16 +66,18 @@ JointCal shall fit astrometric models defined via a configurable composition of 
 \textbf{Discussion:}
 The set of supported transform components is given in other requirements.  Only some components need be used in a particular fit.
 
-\subsection{Orthogonal Polynomials}
+\subsection{Polynomial Bases}
 
 \label{DMS-L2JC-REQ-0003}
 \textbf{ID:} DMS-L2JC-REQ-0003
 
 \textbf{Specification:}
-All JointCal model components based on polynomials shall use an orthonormal polynomial basis instead of standard polynomials.
+All JointCal model components based on polynomials shall use a basis that permits efficient, numerically stable evaluation instead of standard polynomials.
 
 \textbf{Discussion:}
 Chebyshev (outer products up to some order) and Zernike polynomials are reasonable choices in different contexts, but Chebyshev should be the default.
+
+Wavelets should also be considered as a substitute for polynomials for some model components.
 
 \subsection{Regularization of Degenerate Parameters}
 
@@ -108,7 +110,7 @@ Sub-band SEDs for objects will be defined by a small number of orthogonal linear
 It shall be possible to tie any JointCal model component's variation to a group of one or more sensors, a group of one or more exposures, or a group of exposure-sensor pairs.
 
 \textbf{Discussion:}
-Examples for groups of sensors may include rafts or sensors produced by a particular vendor.  Examples of groups of exposures may include those observed with a particular filter or those observed in a particular time range.  Many groups will simply contain a single sensor or exposure.  Full-focal plane model components will never be tied to individual sensors, of course.  A design that could be extended to support different parameters to different amplifiers would be highly desirable in case this is needed in the future.
+Examples for groups of sensors may include rafts or sensors produced by a particular vendor.  Examples of groups of exposures may include those observed with a particular filter or those observed in a particular time range.  Many groups will simply contain a single sensor or exposure.  Full-focal plane model components may sometimes be tied to groups of sensors to investigate goodness-of-fit and sensitivity questions.  A design that could be extended to support different parameters to different amplifiers would be highly desirable in case this is needed in the future.
 
 \subsection{Photometric Jacobian Component}
 
@@ -141,7 +143,7 @@ These components may represent corrections to flat field image due to scattered 
 JointCal shall include a component representing overall photometric throughput that varies with airmass and over the course of each night of observations.
 
 \textbf{Discussion:}
-This component need not be spatially varying on scales below an individual exposure, and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
+This component need not be spatially varying on scales below an individual exposure (that variation is covered by \hyperref[DMS-L2JC-REQ-0008]{DMS-L2JC-REQ-0008}), and it will nearly always be provided by a synthesis of auxilliary data (not fit by JointCal).  In that case, this will be take the form of a number of given data points that should be interpolated (with the interpolant also given) to yield the variation with time (sample points may not correspond to the observations of individual exposures).  When fit directly by JointCal, a linear or quadratic function of time should be fit.
 
 \subsection{Astrometric Tree-Ring Component}
 
@@ -152,7 +154,7 @@ This component need not be spatially varying on scales below an individual expos
 The JointCal astrometric model shall include a component to model tree-rings.
 
 \textbf{Discussion:}
-We will follow the prescription in \citep{2017PASP..129g4503B}: we'll derive a pixel template for the distortion and direction due to tree rings from flat-field images with only 1-3 parameters to be fit by JointCal for each sensor+band combination.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
+We should start by following the prescription in \citep{2017PASP..129g4503B}: we'll derive a pixel template for the distortion and direction due to tree rings from flat-field images with only 1-3 parameters to be fit by JointCal for each sensor+band combination.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
 
 \subsection{Astrometric Edge Distortion Component}
 
@@ -160,10 +162,10 @@ We will follow the prescription in \citep{2017PASP..129g4503B}: we'll derive a p
 \textbf{ID:} DMS-L2JC-REQ-0011
 
 \textbf{Specification:}
-The JointCal astrometric model shall include a component to model sharp distortions at the edges of sensors.
+The JointCal astrometric model shall include a component to model a small, finite set of sharp distortions in sensors.
 
 \textbf{Discussion:}
-The detailed functional form of this model will need to be derived from the properties of actual LSST sensors.  The properties of LSST sensors will also determine whether a single set of parameters can be used for multiple sensors.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
+These are primarily found at the edges of sensors, but may be present elsewhere.  The detailed functional form of this model will need to be derived from the properties of actual LSST sensors.  The properties of LSST sensors will also determine whether a single set of parameters can be used for multiple sensors.  This fit will probably be performed during calibration products production, with the result saved and held fixed by JointCal in DRP.
 
 \subsection{Astrometric Sensor Mount Component}
 
@@ -193,10 +195,12 @@ We ultimately intend to include DCR in the PSF model, not the astrometric model,
 \textbf{ID:} DMS-L2JC-REQ-0014
 
 \textbf{Specification:}
-The JointCal astrometric model shall include at least one component for distortions due to telescope and camera optics.
+The JointCal astrometric model shall include at least a constant radial achromatic component and a chromatic perturbation component for distortions due to telescope and camera optics.
 
 \textbf{Discussion:}
-This component is approximately, but not exactly radial, and can be assumed to be smooth over the focal plane.  It is also approximately but not exactly constant across exposures (it may vary weakly with altitude, for instance).  It may be wavelength-dependent at a level that will require sub-band SEDs to be used in at least some bands in addition to different parameters for each filter.  It may be useful to separate this component into multiple components allow a single radial component that is constant across filters and/or exposures to capture most of this transform, leaving additional variations as small perturbations.
+These components are approximately, but not exactly radial, and can be assumed to be smooth over the focal plane.  The optical distortion is approximately but not exactly constant across exposures (it may vary weakly with altitude or other telescope state variables, for instance).
+
+It may also be wavelength-dependent at a level that will require sub-band SEDs to be used in at least some bands in addition to different parameters for each filter, and hence we expect to need two components: a single radial component that is constant across filters and/or exposures to capture most of this transform, leaving additional variations as small perturbations.
 
 \subsection{Astrometric Atmospheric Component}
 
@@ -259,7 +263,7 @@ This allows a sky area of approximately 2x2 focal planes at 10-year depth in all
 \textbf{ID:} DMS-L2JC-REQ-0020
 
 \textbf{Specification:}
-JointCal shall be capable of processing visits in which not some areas of the focal plane do not overlap any other visits in the set of visits being fit.
+JointCal shall be capable of processing visits in which some areas of the focal plane do not overlap any other visits in the set of visits being fit.
 
 \textbf{Discussion:}
 Visit- or detector-level parameters that only affect the model in areas with a small number of visits need not be fit.
@@ -351,6 +355,17 @@ It shall be possible to add new model components to JointCal to address unantici
 
 \textbf{Discussion:}
 Adding a new model component should not be appreciably more difficult than writing the code to evaluate and differentiate (with respect to parameters) the mathematical function the model represents.  Adding new internal persistence for a model component should also be easy, even if persistence to a format supported by an external standard is much more difficult (or impossible without revising those standards).
+
+\subsection{Geometric Masking}
+
+\label{DMS-L2JC-REQ-0029}
+\textbf{ID:} DMS-L2JC-REQ-0029
+
+\textbf{Specification:}
+JointCal shall be able to ignore and flag sources in regions of sensors or visits identified as unusable.
+
+\textbf{Discussion:}
+This may be used to remove poor measurements in, for example, vignetted areas or highly-distorted areas.
 
 \bibliography{lsst,refs_ads}
 
