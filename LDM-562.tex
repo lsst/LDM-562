@@ -9,9 +9,14 @@
 
 %% Retrieve date and model version
 \setDocUpstreamLocation{MagicDraw SysML}
-\setDocUpstreamVersion{44}
+\setDocUpstreamVersion{78}
 
-\date{2017-11-21}
+\date{2018-01-19}
+
+%% Allow arbitrary latex to be inserted at the end of the document.
+%% Define a new version of this command in metadata.tex. It will
+%% be run before the references are displayed.
+\newcommand{\addendum}{}
 
 %% Define the document title, authors, handle, and change record
 \input metadata.tex
@@ -41,6 +46,993 @@
 
 \begin{document}
 \maketitle
+
+\section{\citeds{LSE-61} Flowdown}
+
+This section contains direct copies of requirements from \citeds{LSE-61}, based on the Level 1 requirements defined in \citeds{LDM-148}.
+
+\subsection{Data Products}
+
+\subsubsection{General Considerations}
+
+\paragraph{Data Availability}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0064}
+\textbf{ID:} DMS-L2-REQ-0064 (Priority: 1b)
+
+\textbf{Specification: }All raw data used to generate any public data product (raw exposures, calibration frames, telemetry, configuration metadata, etc.) shall be kept and made available for download.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0346:
+Data Availability \newline
+
+\paragraph{Measurements in catalogs}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0065}
+\textbf{ID:} DMS-L2-REQ-0065 (Priority: 1b)
+
+\textbf{Specification: }All catalogs shall record source measurements in flux units.
+
+\textbf{Discussion: }Difference measurements can go negative and in multi-epoch surveys averaging of fluxes rather than magnitudes is required. This requirement does not preclude making magnitudes available where appropriate.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0347:
+Measurements in catalogs \newline
+
+\paragraph{Computing Derived Quantities}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0062}
+\textbf{ID:} DMS-L2-REQ-0062 (Priority: 1b)
+
+\textbf{Specification:} Common derived quantities shall be made available to end-users by either providing pre-computed columns or providing functions that can be used dynamically in queries. These should at least include the ability to calculate the reduced chi-squared of fitted models and make it as easy as possible to calculate color-color diagrams.
+
+\textbf{Discussion:} Example quantities include those used to assess model fit quality or those required for calculating color-magnitude diagrams. Care should be taken to name the derived columns in a clear unambiguous way.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0331:
+Computing Derived Quantities \newline
+
+\paragraph{Maximum Likelihood Values and Covariances}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0063}
+\textbf{ID:} DMS-L2-REQ-0063 (Priority: 1b)
+
+\textbf{Specification:} Quantities delivered by all measurement algorithms shall include maximum likelihood values and covariances.
+
+\textbf{Discussion:} Algorithms for which such values are impossible, will be documented explicitly to declare that the values are unavailable.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0333:
+Maximum Likelihood Values and Covariances \newline
+
+\paragraph{Storing Approximations of Per-pixel Metadata}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0061}
+\textbf{ID:} DMS-L2-REQ-0061 (Priority: 2)
+
+\textbf{Specification:} Image depth and mask information shall be available in a parametrized approximate form in addition to a full per-pixel form.
+
+\textbf{Discussion:} This parametrization could be in formats such as MOC, Mangle polygons or STC regions.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0326:
+Storing Approximations of Per-pixel Metadata \newline
+
+\subsubsection{Data Acquisition}
+
+\paragraph{Guider Calibration Data Acquisition}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0059}
+\textbf{ID:} DMS-L2-REQ-0059 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall acquire raw, full-frame exposures from the camera guider sensors during calibration. The DMS shall produce calibration data products for the guide sensors.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0265:
+Guider Calibration Data Acquisition \newline
+
+\subsubsection{Level 1 Data Products}
+
+\paragraph{Processed Visit Images}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0021}
+\textbf{ID:} DMS-L2-REQ-0021 (Priority: 1a)
+
+\textbf{Specification: }The DMS shall produce Processed Visit Images, in which the corresponding raw sensor array data has been trimmed of overscan and corrected for instrumental signature. Images obtained in pairs during a standard visit are combined.
+
+\textbf{Discussion:} Processed science exposures are not archived, and are retained for only a limited time to facilitate down-stream processing. They will be re-generated for users on-demand using the latest processing software and calibrations.
+
+This aspect of the processing for Special Programs data is specific to each program.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0069:
+Processed Visit Images \newline
+
+\subparagraph{Background Model Calculation}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0022}
+\textbf{ID:} DMS-L2-REQ-0022 (Priority: 1b)
+
+\textbf{Specification: }The DMS shall derive and persist a background model (both due to night sky and astrophysical) for each visit image, per CCD.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0327:
+Background Model Calculation \newline
+
+\subparagraph{Generate Photometric Zeropoint for Visit Image}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0023}
+\textbf{ID:} DMS-L2-REQ-0023 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall derive and persist a photometric zeropoint for each visit image, per CCD.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0029:
+Generate Photometric Zeropoint for Visit Image \newline
+
+\subparagraph{Generate PSF for Visit Images}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0024}
+\textbf{ID:} DMS-L2-REQ-0024 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall determine a characterization of the PSF for any specified location in Processed Visit Images.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0070:
+Generate PSF for Visit Images \newline
+
+\subparagraph{Generate WCS for Visit Images}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0025}
+\textbf{ID:} DMS-L2-REQ-0025 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall generate and persist a WCS for each visit image.  The absolute accuracy of the WCS shall be at least \textbf{astrometricAccuracy} in all areas of the image, provided that there are at least \textbf{astrometricMinStandards} astrometric standards available in each CCD.
+
+\textbf{Discussion:} The World Coordinate System for visits will be expressed in terms of a FITS Standard representation, which provides for named metadata to be interpreted as coefficients of one of a finite set of coordinate transformations.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0030:
+Generate WCS for Visit Images \newline
+
+\subparagraph{Documenting Image Characterization}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0026}
+\textbf{ID:} DMS-L2-REQ-0026 (Priority: 1b)
+
+\textbf{Specification:} The persisted format for Processed Visit Images shall be fully documented, and shall include a description of all image characterization data products.
+
+\textbf{Discussion:} This will allow the community to use them to increase understanding of LSST images and derived LSST catalogs.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0328:
+Documenting Image Characterization \newline
+
+\subparagraph{Processed Visit Image Content}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0027}
+\textbf{ID:} DMS-L2-REQ-0027 (Priority: 1a)
+
+\textbf{Specification:} Processed visit images shall include the corrected science pixel array, an integer mask array where each bit-plane represents a logical statement about whether a particular detector pathology affects the pixel, a variance array which represents the expected variance in the corresponding science pixel, and a representation of the spatially varying PSF that applies over the extent of the science array. These images shall also contain metadata that map pixel to world (sky) coordinates (the WCS) as well as metadata from which photometric measurements can be derived.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0072:
+Processed Visit Image Content \newline
+
+\paragraph{Level 1 Calibration Report Definition}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0028}
+\textbf{ID:} DMS-L2-REQ-0028 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall produce a Level 1 Calibration Report that provides a summary of significant differences in Calibration Images that may indicate evolving problems with the telescope or camera, including a nightly broad-band flat in each filter.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0101:
+Level 1 Calibration Report Definition \newline
+
+\paragraph{Regenerating L1 Data Products During Data Release Processing}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0029}
+\textbf{ID:} DMS-L2-REQ-0029 (Priority: 2)
+
+\textbf{Specification:} During Data Release Processing, all the Level 1 data products shall be regenerated using the current best algorithms.
+
+\textbf{Discussion:} Variability characterization will use the full light curve history.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0325:
+Regenerating L1 Data Products During Data Release Processing \newline
+
+\subsubsection{Level 2 Data Products}
+
+\paragraph{Calibration Data Products}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0037}
+\textbf{ID:} DMS-L2-REQ-0037 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall produce and archive Calibration Data Products that capture the signature of the telescope, camera and detector, including at least: Crosstalk correction matrix, Bias and Dark correction frames, a set of monochromatic dome flats spanning the wavelength range, a synthetic broad-band flat per filter, and an illumination correction frame per filter.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0130:
+Calibration Data Products \newline
+
+\paragraph{Persisting Data Products}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0051}
+\textbf{ID:} DMS-L2-REQ-0051 (Priority: 1b)
+
+\textbf{Specification:}
+All per-band deep coadds and best seeing coadds shall be kept indefinitely and made available to users.
+
+\textbf{Discussion:} This requirement is intended to list all the data products that must be archived rather than regenerated on demand. DMS-REQ-0069 indicates in discussion that Processed Visit Images are not archived. DMS-REQ-0010 indicates in the discussion that Difference Exposures are not archived.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0334:
+Persisting Data Products \newline
+
+\paragraph{Calibration Image Provenance}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0038}
+\textbf{ID:} DMS-L2-REQ-0038 (Priority: 1a)
+
+\textbf{Specification:} For each Calibration Production data product, DMS shall record: the list of input exposures and the range of dates over which they were obtained; the processing parameters; the calibration products used to derive it; and a set of metadata attributes including at least: the date of creation; the calibration image type (e.g. dome flat, superflat, bias, etc); the provenance of the processing software; and the instrument configuration including the filter in use, if applicable.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0132:
+Calibration Image Provenance \newline
+
+\paragraph{Source Catalog}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0041}
+\textbf{ID:} DMS-L2-REQ-0041 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall create a Catalog containing all Sources detected in single (standard) visits and on Co-Adds, and will contain an identifier of the Exposure on which the Source was detected, as well as measurements of Source Attributes. The measured attributes (and associated errors) include location on the focal plane; a static point-source model fit to world coordinates and flux; a centroid and adaptive moments; and surface brightnesses through elliptical multiple apertures that are concentric, PSF-homogenized, and logarithmically spaced in intensity.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0267:
+Source Catalog \newline
+
+\paragraph{Object Catalog}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0031}
+\textbf{ID:} DMS-L2-REQ-0031 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall create an Object Catalog, based on sources deblended based on knowledge of CoaddSource, DIASource, DIAObject, and SSObject Catalogs, after multi-epoch spatial association and characterization.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0275:
+Object Catalog \newline
+
+\subparagraph{Provide Photometric Redshifts of Galaxies}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0032}
+\textbf{ID:} DMS-L2-REQ-0032 (Priority: 2)
+
+\textbf{Specification:} The DMS shall compute a photometric redshift for all detected Objects.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0046:
+Provide Photometric Redshifts of Galaxies \newline
+
+\subparagraph{Object Characterization}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0033}
+\textbf{ID:} DMS-L2-REQ-0033 (Priority: 1b)
+
+\textbf{Specification:} Each entry in the Object Catalog shall include the following characterization measures: a point-source model fit, a bulge-disk model fit, standard colors, a centroid, adaptive moments, Petrosian and Kron fluxes, surface brightness at multiple apertures, proper motion and parallax, and a variability characterization.
+
+\textbf{Discussion: }These measurements are intended to enable LSST "static sky" science.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0276:
+Object Characterization \newline
+
+\paragraph{Associate Sources to Objects}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0030}
+\textbf{ID:} DMS-L2-REQ-0030 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall associate Sources measured at different times and in different passbands with entries in the Object catalog.
+
+\textbf{Discussion:} The task of association is to relate Sources from different times, filters, and sky positions, to the corresponding Objects. Having made these associations, further measurements can be made on the full object data to generate astronomically useful quantities.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0034:
+Associate Sources to Objects \newline
+
+\paragraph{Deep Detection Coadds}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0046}
+\textbf{ID:} DMS-L2-REQ-0046 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall periodicaly create Co-added Images in each of the \textit{u,g,r,i,z,y} passbands by combining all archived exposures taken of the same region of sky and in the same passband that meet specified quality conditions.
+
+\textbf{Discussion: }Quality attributes may include thresholds on seeing, sky brightness, wavefront quality, PSF shape and spatial variability, or date of exposure.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0279:
+Deep Detection Coadds \newline
+
+\paragraph{Dark Current Correction Frame}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0039}
+\textbf{ID:} DMS-L2-REQ-0039 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall produce on an as-needed basis a dark current correction image, which is constructed from multiple, closed-shutter exposures of appropriate duration. The effectiveness of the Dark Correction shall be verified in production processing on science data.
+
+\textbf{Discussion: }The need for a dark current correction will have to be quantified during Commissioning. Collecting closed-dome dark exposures may be deemed necessary to monitor the health of the detectors, even if not used in calibration processing.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0282:
+Dark Current Correction Frame \newline
+
+\paragraph{Template Coadds}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0047}
+\textbf{ID:} DMS-L2-REQ-0047 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall periodically create Template Images in each of the \textit{u,g,r,i,z,y} passbands that are constructed identically to Deep Detection Coadds, but where the contributing Calibrated Exposures are limited to a range of observing epochs \textbf{templateMaxTimespan}, the images are partitioned by airmass into multiple bins, and where the quality criteria may be different.
+
+\textbf{Discussion: }Image Templates are used by the Image Difference pipeline in the course of identifying transient or variable sources. The range of epochs must be limited to avoid confusing slowly moving sources (such as high proper motion stars) with genuine transients. It is anticipated that separate templates will be created in each passband for 3 separate ranges of airmass.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0280:
+Template Coadds \newline
+
+\paragraph{Multi-band Coadds}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0048}
+\textbf{ID:} DMS-L2-REQ-0048 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall periodically create Multi-band Coadd images which are constructed similarly to Deep Detection Coadds, but where all passbands are combined.
+
+\textbf{Discussion: }The multi-color Coadds are intended for very deep detection.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0281:
+Multi-band Coadds \newline
+
+\paragraph{Best Seeing Coadds}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0050}
+\textbf{ID:} DMS-L2-REQ-0050 (Priority: 2)
+
+\textbf{Specification:} Best seeing coadds shall be made for each band (including multi-color).
+
+\textbf{Discussion:} DMS-REQ-0279 states that seeing-based co-adds should be possible. This requirement states that they shall be made.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0330:
+Best Seeing Coadds \newline
+
+\paragraph{Fringe Correction Frame}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0040}
+\textbf{ID:} DMS-L2-REQ-0040 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall produce on an as-needed basis an image that corrects for detector fringing. The effectiveness of the Fringe Correction shall be verified in production processing on science data.
+
+\textbf{Discussion: }Fringing is likely to affect only the reddest filters, where the CCD substrate becomes semi-transparent to incident light.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0283:
+Fringe Correction Frame \newline
+
+\paragraph{PSF-Matched Coadds}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0052}
+\textbf{ID:} DMS-L2-REQ-0052 (Priority: 1b)
+
+\textbf{Specification:} One (ugrizy plus multi-band) set of PSF-matched coadds shall be made but shall not be archived.
+
+\textbf{Discussion:} These are used to measure colors and shapes of objects at "standard" seeing. Sufficient provenance information will be made available to allow these coadds to be recreated by Level 3 users.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0335:
+PSF-Matched Coadds \newline
+
+\paragraph{Detecting faint variable objects}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0053}
+\textbf{ID:} DMS-L2-REQ-0053 (Priority: 2)
+
+\textbf{Specification: }The DMS shall be able to detect faint objects showing long-term variability, or nearby object with high proper motions.
+
+\textbf{Discussion:} For example, this could be implemented using short-period (yearly) coadds.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0337:
+Detecting faint variable objects \newline
+
+\paragraph{Coadd Image Method Constraints}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0045}
+\textbf{ID:} DMS-L2-REQ-0045 (Priority: 1b)
+
+\textbf{Specification:} Coadd Images shall be created by combining spatially overlapping Processed Visit Images (on which bad pixels and transient sources have been masked), where the contributing Processed Visit Images have been re-projected to a common reference geometry, and matched to a common background level which best approximates the astrophysical background.
+
+\textbf{Discussion:} It is expected that coadded images will be produced for all observed regions of the sky, not just the main survey area.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0278:
+Coadd Image Method Constraints \newline
+
+\paragraph{Provide PSF for Coadded Images}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0034}
+\textbf{ID:} DMS-L2-REQ-0034 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall determine a characterization of the PSF for any specified location in coadded images.
+
+\textbf{Discussion:} The PSF model will be primarily used to perform initial object characterization and bootstrapping of multi-epoch object characterization (e.g., Multifit).
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0047:
+Provide PSF for Coadded Images \newline
+
+\paragraph{Coadded Image Provenance}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0036}
+\textbf{ID:} DMS-L2-REQ-0036 (Priority: 1b)
+
+\textbf{Specification:} For each Coadded Image, DMS shall store: the list of input images and the pipeline parameters, including software versions, used to derive it, and a sufficient set of metadata attributes for users to re-create them in whole or in part.
+
+\textbf{Discussion:} Not all coadded image types will be made available to end-users or retained for the life of the survey; however, sufficient metadata will be preserved so that they may be recreated by end-users.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0106:
+Coadded Image Provenance \newline
+
+\paragraph{Coadd Source Catalog}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0043}
+\textbf{ID:} DMS-L2-REQ-0043 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall, in the course of creating the master Source Catalog, create a catalog from the coadds of all sources detected in each passband with a SNR > \textbf{coaddDetectThresh}.
+
+\textbf{Discussion: }CoaddSources are in general composites of overlapping astrophysical objects. This catalog is an intermediate product in DR production, and will not be permanently archived nor released to end-users.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0277:
+Coadd Source Catalog \newline
+
+\subparagraph{Detecting extended  low surface brightness objects}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0044}
+\textbf{ID:} DMS-L2-REQ-0044 (Priority: 2)
+
+\textbf{Specification: }It shall be possible to detect extended low surface brightness objects in coadds.
+
+\textbf{Discussion: }For example, this could be done by using the binned detection algorithm from SDSS.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0349:
+Detecting extended  low surface brightness objects \newline
+
+\paragraph{Forced-Source Catalog}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0042}
+\textbf{ID:} DMS-L2-REQ-0042 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall create a Forced-Source Catalog, consisting of measured fluxes for all entries in the Object Catalog on all Processed Visit Images and Difference Images. Measurements for each forced-source shall include the object and visit IDs, the modelled flux and error (given fixed position, shape, and deblending parameters), and measurement quality flags.
+
+\textbf{Discussion: }The large number of Forced Sources makes it impractical to measure more attributes than are necessary to construct a light curve for variability studies.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0268:
+Forced-Source Catalog \newline
+
+\paragraph{Produce Images for EPO}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0035}
+\textbf{ID:} DMS-L2-REQ-0035 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall produce images for EPO purposes, according to the requirements in the DM-EPO ICD.
+
+    \textbf{Discussion: }This is expected to include polychromatic (e.g., RGB JPEG) images for casual users. The DM-EPO ICD is \citeds{LSE-131}.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0103:
+Produce Images for EPO \newline
+
+\paragraph{All-Sky Visualization of Data Releases}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0049}
+\textbf{ID:} DMS-L2-REQ-0049 (Priority: 2)
+
+\textbf{Specification:} Data Release Processing shall generate co-adds suitable for use in all-sky visualization tools, allowing panning and zooming of the entire data release.
+
+\textbf{Discussion:} For example, this could mean HEALPix tiles suitable for use in a HiPS server. The exact technology choice has to be confirmed before understanding which format is required.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0329:
+All-Sky Visualization of Data Releases \newline
+
+\subsubsection{Calibration Data Products}
+
+\paragraph{Bad Pixel Map}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0054}
+\textbf{ID:} DMS-L2-REQ-0054 (Priority: 1a)
+
+\textbf{Specification: }The DMS shall produce on an as-needed basis a map of detector pixels that are affected by one or more pathologies, such as non-responsive pixels, charge traps, and hot pixels. The particular pathologies shall be bit-encoded in, at least, 32-bit pixel values, so that additional pathologies may also be recorded in down-stream processing software.
+
+\textbf{Discussion:} The fraction of bad pixels is expected to be small. Therefore the Reference Map, while logically equivalent to an image, may be stored in a more compressible form.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0059:
+Bad Pixel Map \newline
+
+\paragraph{Bias Residual Image}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0055}
+\textbf{ID:} DMS-L2-REQ-0055 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall construct on an as-needed basis an image that corrects for any temporally stable bias structure that remains after overscan correction. The Bias Residual shall be constructed from multiple, zero-second exposures where the overscan correction has been applied.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0060:
+Bias Residual Image \newline
+
+\paragraph{Crosstalk Correction Matrix}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0056}
+\textbf{ID:} DMS-L2-REQ-0056 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall, on an as-needed basis, determine from appropriate calibration data what fraction of the signal detected in any given amplifier on each sensor in the focal plane appears in any other amplifier, and shall record that fraction in a correction matrix. The applicability of the correction matrix shall be verified in production processing on science data.
+
+\textbf{Discussion: }The frequency with which the Cross-talk Correction Matrix must be computed will be determined during Commissioning and monitored during operations.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0061:
+Crosstalk Correction Matrix \newline
+
+\paragraph{Monochromatic Flatfield Data Cube}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0058}
+\textbf{ID:} DMS-L2-REQ-0058 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall produce on an as-needed basis an image that corrects for the color-dependent, pixel-to-pixel non-uniformity in the detector response. The images in the cube shall be constructed from exposures at multiple wavelengths of a uniformly illuminated source. The effectiveness of the flat-field shall be verified in production processing on science data.
+
+\textbf{Discussion:} Monochromatic flat-fields are expected to be produced no more frequently than monthly, owing to the time required to obtain the exposures.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0063:
+Monochromatic Flatfield Data Cube \newline
+
+\paragraph{Illumination Correction Frame}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0057}
+\textbf{ID:} DMS-L2-REQ-0057 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall produce on an as-needed basis an image that corrects for the non-uniform illumination of the flat-field calibration apparatus on the focal plane. The effectiveness of the Illumination Correction shall be verified in production processing on science data.
+
+\textbf{Discussion:} The Illumination correction is anticipated to be quite stable. Updates to the correction should be no more frequent than monthly.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0062:
+Illumination Correction Frame \newline
+
+\subsubsection{Special Programs}
+
+\paragraph{Processing of Data From Special Programs}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0060}
+\textbf{ID:} DMS-L2-REQ-0060 (Priority: 2)
+
+\textbf{Specification:} It shall be possible for special programs to trigger their own data processing recipes.
+
+\textbf{Discussion:} This affects both L1 and L2 data products. For some special programs there may be minimalist L1 processing, for other special programs the L1 processing may be the standard alert generation processing. The scope of special programs processing is currently undefined.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0320:
+Processing of Data From Special Programs \newline
+
+\subsection{Productions}
+
+\subsubsection{General Considerations}
+
+\paragraph{Selection of Datasets}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0069}
+\textbf{ID:} DMS-L2-REQ-0069 (Priority: 1a)
+
+\textbf{Specification:} A Dataset may consist of one or more pixel images, a set of records in a file or database, or any other grouping of data that are processed or produced as a logical unit. The DMS shall be able to identify and retrieve complete, consistent datasets for processing.
+
+\textbf{Discussion: }Logical groupings might be pairs of Exposures in a Visit, along with supporting metadata and provenance information, or might be groupings defined in the context of Level-3 processing.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0293:
+Selection of Datasets \newline
+
+\paragraph{Processing of Datasets}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0070}
+\textbf{ID:} DMS-L2-REQ-0070 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall process all requested datasets until either a successful result is recorded or a permanent failure is recognized. If any dataset is processed, in part or in whole, more than once, only one of the wholly processed results will be recorded for further processing.
+
+\textbf{Discussion: }The criteria may be specified by DMS processing software, or by a scientist end-user for Level-3 production.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0294:
+Processing of Datasets \newline
+
+\subsubsection{Alert Production}
+
+\paragraph{Calibration Images Available Within Specified Time}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0067}
+\textbf{ID:} DMS-L2-REQ-0067 (Priority: 2)
+
+\textbf{Specification:} Calibration products from a group of up to \textbf{nCalExpProc} related exposures that should be processed together, shall be available from the DMS image archive within \textbf{calProcTime} of the end of the acquisition of images/data for that group.
+
+\textbf{Discussion: }The motivation here is that calibration images will be needed at least 1 hour prior to the start of observing and this requirement allows the calibration observations to be planned accordingly.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0131:
+Calibration Images Available Within Specified Time \newline
+
+\paragraph{Generate Calibration Report Within Specified Time}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0066}
+\textbf{ID:} DMS-L2-REQ-0066 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall generate a nightly Calibration Report within time \textbf{calibReportComplTime }in both human-readable and machine-readable forms.
+
+\textbf{Discussion:} The Report must be timely in order to evaluate whether changes to hardware, software, or procedures are needed for the following night's observing.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0100:
+Generate Calibration Report Within Specified Time \newline
+
+\subsubsection{Calibration Production}
+
+\paragraph{Calibration Production Processing}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0068}
+\textbf{ID:} DMS-L2-REQ-0068 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall be capable of producing calibration data products on an as-needed basis, consistent with monitoring the health and performance of the instrument, the availability of raw calibration exposures, the temporal stability of the calibrations, and of the SRD requirements for calibration accuracy.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0289:
+Calibration Production Processing \newline
+
+\subsubsection{Data Release Production}
+
+\paragraph{Associating Objects across data releases}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0071}
+\textbf{ID:} DMS-L2-REQ-0071 (Priority: 2)
+
+\textbf{Specification:} It shall be possible to associate an Object in one data release to the most likely match in the Object table from another data release. This shall be possible without the previous data releases being online.
+
+\textbf{Discussion:} This could be done with a database table mapping every Object in one data release to the matched Object in every other data release.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0350:
+Associating Objects across data releases \newline
+
+\subsection{Software}
+
+\subsubsection{General Considerations}
+
+\paragraph{Software Architecture to Enable Community Re-Use}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0020}
+\textbf{ID:} DMS-L2-REQ-0020 (Priority: 1b)
+
+\textbf{Specification:} The DMS software architecture shall be designed to enable high throughput on high-performance compute platforms, while also enabling the use of science-specific algorithms by science users on commodity desktop compute platforms.
+
+\textbf{Discussion: }The high data volume and short processing timeline for LSST Productions anticipates the use of high-performance compute infrastructure, while the need to make the science algorithms immediately applicable to science teams for Level-3 processing drives the need for easy interoperability with desktop compute environments.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0308:
+Software Architecture to Enable Community Re-Use \newline
+
+\subsubsection{Applications Software}
+
+\paragraph{Simulated Data}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0006}
+\textbf{ID:} DMS-L2-REQ-0006 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall provide the ability to inject artificial or simulated data into data products to assess the functional and temporal performance of the production processing software.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0009:
+Simulated Data \newline
+
+\paragraph{Image Differencing}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0007}
+\textbf{ID:} DMS-L2-REQ-0007 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall provide software to perform image differencing, generating Difference Exposures from the comparison of single exposures and/or coadded images.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0032:
+Image Differencing \newline
+
+\paragraph{Provide Source Detection Software}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0008}
+\textbf{ID:} DMS-L2-REQ-0008 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software for the detection of sources in a calibrated image, which may be a Difference Image or a Co-Add image.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0033:
+Provide Source Detection Software \newline
+
+\paragraph{Provide Calibrated Photometry}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0010}
+\textbf{ID:} DMS-L2-REQ-0010 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide calibrated photometry in each observed passband for all measured entities (e.g., DIASources, Sources, Objects), measuring the AB magnitude of the equivalent flat-SED source, above the atmosphere. Fluxes, possibly in jansky, shall be calculated for all measured entities.
+
+\textbf{Discussion: }Note that the SED is only assumed to be flat within the passband of the measurement.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0043:
+Provide Calibrated Photometry \newline
+
+\paragraph{Provide Astrometric Model}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0009}
+\textbf{ID:} DMS-L2-REQ-0009 (Priority: 1b)
+
+\textbf{Specification:} An astrometric model shall be provided for every Object and DIAObject which specifies at least the proper motion and parallax, and the estimated uncertainties on these quantities.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0042:
+Provide Astrometric Model \newline
+
+\paragraph{Provide Beam Projector Coordinate Calculation Software}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0012}
+\textbf{ID:} DMS-L2-REQ-0012 (Priority: 1a)
+
+\textbf{Specification:}  The DMS shall provide software to represent the coordinate transformations relating the collimated beam projector position and telescope pupil position to the illumination position on the telescope optical elements and focal plane.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0351:
+Provide Beam Projector Coordinate Calculation Software \newline
+
+\paragraph{Enable a Range of Shape Measurement Approaches}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0011}
+\textbf{ID:} DMS-L2-REQ-0011 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall provide for the use of a variety of shape models on multiple kinds of input data to measure sources: measurement on coadds; measurement on coadds using information (e.g., PSFs) extracted from the individual exposures; measurement based on all the information from the individual Exposures simultaneously.
+
+\textbf{Discussion: }The most appropriate measurement model to apply depends upon the nature of the composite source.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0052:
+Enable a Range of Shape Measurement Approaches \newline
+
+\subsubsection{Middleware Software}
+
+\paragraph{Provide Pipeline Execution Services}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0016}
+\textbf{ID:} DMS-L2-REQ-0016 (Priority: 1a)
+
+\textbf{Discussion:}
+(This is a composite requirement in the SysML model, which simply aggregates its children.)
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0156:
+Provide Pipeline Execution Services \newline
+
+\subparagraph{Production Orchestration}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0017}
+\textbf{ID:} DMS-L2-REQ-0017 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software to orchestrate execution of productions, including deploying pipelines on a computing platform.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0302:
+Production Orchestration \newline
+
+\subparagraph{Production Monitoring}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0018}
+\textbf{ID:} DMS-L2-REQ-0018 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software to monitor execution of pipelines in real time.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0303:
+Production Monitoring \newline
+
+\subparagraph{Production Fault Tolerance}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0019}
+\textbf{ID:} DMS-L2-REQ-0019 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software to detect faults in pipeline execution and recover when possible.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0304:
+Production Fault Tolerance \newline
+
+\paragraph{Provide Pipeline Construction Services}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0013}
+\textbf{ID:} DMS-L2-REQ-0013 (Priority: 1a)
+
+\textbf{Discussion:}
+(This is a composite requirement in the SysML model, which simply aggregates its children.)
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0158:
+Provide Pipeline Construction Services \newline
+
+\subparagraph{Task Configuration}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0014}
+\textbf{ID:} DMS-L2-REQ-0014 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software to define, override components of, and verify the suitability of the configuration for a task.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0306:
+Task Configuration \newline
+
+\subparagraph{Task Specification}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0015}
+\textbf{ID:} DMS-L2-REQ-0015 (Priority: 1a)
+
+\textbf{Specification:} The DMS shall provide software to define (and redefine without recompilation) a pipeline task containing a science algorithm, which may in turn consist of the execution of other subtasks.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0305:
+Task Specification \newline
+
+\subsection{Facilities}
+
+\subsubsection{Computational Infrastructure}
+
+\paragraph{Data Management Unscheduled Downtime}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0005}
+\textbf{ID:} DMS-L2-REQ-0005 (Priority: 1b)
+
+\textbf{Specification:} The Data Management subsystem shall be designed to facilitate unplanned repair activities expected not to exceed \textbf{DMDowntime} days per year.
+
+\textbf{Discussion:} This requirement does not apply to DM's alert publication and other data processing and user-interaction functionality, but only to failures in DM that directly prevent the collection of survey data. The reference case would be a failure of communication or archiving that lasted longer than the capacity of the Summit buffer -- i.e., a 3-day outage would exceed the nominal buffer capacity by one day and therefore use up the proposed allocation.
+
+This requirement does not invoke the need to verify by reliability analysis. Verification is by analysis that identifies likely hardware failures and identifies mitigations to minimize downtime caused by those failures.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0318:
+Data Management Unscheduled Downtime \newline
+
+\paragraph{Compute Platform Heterogeneity}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0004}
+\textbf{ID:} DMS-L2-REQ-0004 (Priority: 1b)
+
+\textbf{Specification:} At any given LSST computational facility the DMS shall be capable of operations on a heterogeneous cluster of machines. The hardware, operating system, and other machine parameters shall be limited to a project-approved set.
+
+\textbf{Discussion: }The necessity of replacing hardware throughout the course of the survey essentially guarantees heterogeneity within a cluster.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0314:
+Compute Platform Heterogeneity \newline
+
+\paragraph{Pipeline Availability}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0001}
+\textbf{ID:} DMS-L2-REQ-0001 (Priority: 1b)
+
+\textbf{Specification:} Except in cases of major disaster, the DMS shall have no unscheduled outages of the DMS pipelines extending over a period greater than \textbf{productionMaxDowntime}.  A major disaster is defined as a natural disaster or act of war (e.g. flood, fire, hostile acts) that compromises or threatens to compromise the health and integrity of the DMS physical facility, computing equipment, or operational personnel.
+
+\textbf{Discussion:} This applies to active productions only. It is allowed for the Alert Production to be down for longer periods during observatory scheduled maintenance, and for the Data Release Production to be down during development and validation periods between productions.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0008:
+Pipeline Availability \newline
+
+\paragraph{Re-processing Capacity}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0002}
+\textbf{ID:} DMS-L2-REQ-0002 (Priority: 1b)
+
+\textbf{Specification:} The DMS shall provide Processing, Storage, and Network resources capable of executing the DMS Data Release Production over all pre-existing survey data in a time no greater than \textbf{drProcessingPeriod}, without impacting observatory operations.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0163:
+Re-processing Capacity \newline
+
+\paragraph{Incorporate Autonomics}\hfill  % Force subsequent text onto new line
+
+\label{DMS-L2-REQ-0003}
+\textbf{ID:} DMS-L2-REQ-0003 (Priority: 2)
+
+\textbf{Specification:} The infrastructure will incorporate sufficient capability for self-diagnostics and recovery to provide for continuation of processing in the event of partial hardware or software failures.
+
+\textbf{Discussion: }It is understood that the system performance may degrade with increasing numbers of failures.
+
+\emph{Derived from Requirements:}
+
+DMS-REQ-0167:
+Incorporate Autonomics \newline
 
 \section{Joint Calibration}
 
@@ -366,6 +1358,8 @@ JointCal shall be able to ignore and flag sources in regions of sensors or visit
 
 \textbf{Discussion:}
 This may be used to remove poor measurements in, for example, vignetted areas or highly-distorted areas.
+
+\addendum
 
 \bibliography{lsst,refs_ads}
 
